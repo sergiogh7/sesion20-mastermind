@@ -185,7 +185,7 @@ public class MasterMindGUI extends JFrame {
 					
 					//solución para mostrar solución
 					
-				/*	for (int j = 0; j < juego.bolaSolucion.length; j++) {
+					/*for (int j = 0; j < juego.bolaSolucion.length; j++) {
 
 						panelCombinacionSecreta.add(juego.bolaSolucion[j]);
 						

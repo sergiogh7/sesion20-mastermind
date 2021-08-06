@@ -2,8 +2,8 @@ package Clases;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -52,54 +52,35 @@ public class MasterMind extends JFrame {
 	}
 
 	// métodos,
-	
-	//array de colores que no se repiten para crear etiquetas de colores disponibles,
-	private void arrayColoresAuxiliar() {
-		Color test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
-
-		this.arrayColoresDisponibles = new Color[this.numColores];
-
-		for (int i = 0; i < this.arrayColoresDisponibles.length; i++) {
-
-			do {
-				test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
-			} 
-			while (searchList(this.arrayColoresDisponibles, test));
-	
-			this.arrayColoresDisponibles[i] = test;			
-		}
-	}
-
-	//método para buscar el color repetido,
-	private boolean searchList(Color[] strings, Color searchString) {
-		return Arrays.asList(strings).contains(searchString);
-	}
-
-	
-	// para crear array de Labels con colores disponibles,
-	// controlamos que no se repiten colores,
-	public void crearColores() {
+	// método que comprueba intento del usuario con solucón,
+	protected boolean isGanado() {
+		boolean isGanado = true;
 		
-		//inicializamos el array de colores que vamos a asignar,
-		this.arrayColoresAuxiliar();
-
-		// System.out.println(randomNumColor());
-		this.bolaColores = new JLabel[this.numColores];
-
-		// elegimos colores aleatoriamente;
-
-		for (int i = 0; i < this.bolaColores.length; i++) {
-
-			JLabel lblNewLabel = new JLabel("");
-			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel.setOpaque(true);
-			lblNewLabel.setBackground(this.arrayColoresDisponibles[i]);
-			lblNewLabel.setPreferredSize(new Dimension(15, 15));
-			
-			this.bolaColores[i] = lblNewLabel;
-
+		for (int i = 0; i < bolaSolucion.length; i++) {
+			for (int j = 0; j < bola.length; j++) {
+				
+				//!!!!!!!!!!comprobar si funciona!!!!!!
+				if (bolaSolucion[i].getBackground() !=  bola[j].getBackground()) {
+					isGanado = false;
+				}
+			}
 		}
+		
+		return isGanado;
 	}
+	
+	//método que comprueba si hay intentos,
+	protected boolean hasIntentos() {
+		
+		boolean hasIntentos = true;
+		
+		 if (this.getNumIntentos() == 0) {
+			 hasIntentos = false;
+		}
+		 
+		 return hasIntentos;
+	}
+	
 	
 	//método para crear linea de un intento,
 	public void crear_linea_bola(JPanel panel) {
@@ -121,14 +102,59 @@ public class MasterMind extends JFrame {
 			panelLinea.add(this.bola[i]);
 		}
 	}
+	
+	//array de colores que no se repiten para crear etiquetas de colores disponibles,
+		private void arrayColoresAuxiliar() {
+			Color test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
+
+			this.arrayColoresDisponibles = new Color[this.numColores];
+
+			for (int i = 0; i < this.arrayColoresDisponibles.length; i++) {
+
+				do {
+					test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
+				} 
+				while (searchList(this.arrayColoresDisponibles, test));
+		
+				this.arrayColoresDisponibles[i] = test;			
+			}
+		}
+
+		//método para buscar el color repetido,
+		private boolean searchList(Color[] strings, Color searchString) {
+			return Arrays.asList(strings).contains(searchString);
+		}
+
+		
+		// para crear array de Labels con colores disponibles,
+		// controlamos que no se repiten colores,
+		public void crearColores() {
+			
+			//inicializamos el array de colores que vamos a asignar,
+			this.arrayColoresAuxiliar();
+
+			this.bolaColores = new JLabel[this.numColores];
+
+			// elegimos colores aleatoriamente;
+
+			for (int i = 0; i < this.bolaColores.length; i++) {
+
+				JLabel lblNewLabel = new JLabel("");
+				lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				lblNewLabel.setOpaque(true);
+				lblNewLabel.setBackground(this.arrayColoresDisponibles[i]);
+				lblNewLabel.setPreferredSize(new Dimension(15, 15));
+				
+				this.bolaColores[i] = lblNewLabel;
+
+			}
+		}
 
 	//método que crea combinación secreta,
 	public void crearSolucion() {
 		
 		this.bolaSolucion = new JLabel[this.numColores];
 		
-		System.out.println("solucion len" + this.bolaSolucion.length);
-
 		// elegimos colores aleatoriamente;
 
 		for (int i = 0; i < this.bolaSolucion.length; i++) {
@@ -141,7 +167,6 @@ public class MasterMind extends JFrame {
 			lblNewLabel.setPreferredSize(new Dimension(15, 15));
 			
 			this.bolaSolucion[i] = lblNewLabel;
-
 		}
 	}
 
@@ -173,6 +198,12 @@ public class MasterMind extends JFrame {
 			this.numIntentos = this.INTENTOS_DEFECTO;
 			break;
 		}
+	}
+	
+	
+	//para comprobar cantidad de intentos,
+	public int getNumIntentos() {
+		return numIntentos;
 	}
 
 	// setter para asignar cantidad de colores que tiene el juego según el nivel
