@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
 
 
 public class MasterMindGUI extends JFrame {
@@ -26,6 +27,7 @@ public class MasterMindGUI extends JFrame {
 	protected String nivel;
 	protected JPanel panelColoresDisponibles;
 	protected JPanel panelCombinacionSecreta;
+	protected JPanel panelComprobacion;
 	protected MasterMind juego;
 	protected JPanel panelUsuario;
 
@@ -103,7 +105,7 @@ public class MasterMindGUI extends JFrame {
 		contentPane.add(panelUsuario);
 		panelUsuario.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JPanel panelComprobacion = new JPanel();
+		panelComprobacion = new JPanel();
 		contentPane.add(panelComprobacion);
 
 		JPanel panelSolucion = new JPanel();
@@ -116,6 +118,7 @@ public class MasterMindGUI extends JFrame {
 		panelParaColoresDisponibles.setLayout(new GridLayout(2, 0, 0, 0));
 
 		JLabel lblColores = new JLabel("Colores Disponibles");
+				
 		lblColores.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblColores.setHorizontalAlignment(SwingConstants.CENTER);
 		panelParaColoresDisponibles.add(lblColores);
@@ -150,6 +153,8 @@ public class MasterMindGUI extends JFrame {
 				//para borrar componentes de la partida anterior,
 				MasterMind.borrarComponentes(panelColoresDisponibles);
 				MasterMind.borrarComponentes(panelCombinacionSecreta);
+				MasterMind.borrarComponentes(panelUsuario);
+				MasterMind.borrarComponentes(panelComprobacion);
 				
 				// guardamos el nivel que ha elegido usuario,
 				nivel = dialog.getNivel();
@@ -168,22 +173,29 @@ public class MasterMindGUI extends JFrame {
 				} else {
 					// empieza el juego,
 					
-					juego = new MasterMind(nivel);
+					juego = new MasterMind(nivel, panelColoresDisponibles);
 					panelUsuario.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
 					System.out.println(juego.toString());
 
-
+					//para que se vea array de colores disponibles,
+					setVisible(true);
+					
 					//añadimos componentes de colores disponibles,
-					for (int i = 0; i < juego.bolaColores.length; i++) {
+				/*	for (int i = 0; i < juego.bolaColores.length; i++) {
 			
 						panelColoresDisponibles.add(juego.bolaColores[i]);
 						
 						setVisible(true);
-					}	
+					}	*/
 					
-					juego.crear_linea_bola(panelUsuario);
+					juego.jugar(panelUsuario, panelCombinacionSecreta, panelComprobacion);
 					
-					//solución para mostrar solución
+					//para que se vea la combinación secreta,
+					setVisible(true);
+					
+					
+					
+					
 					
 					/*for (int j = 0; j < juego.bolaSolucion.length; j++) {
 
