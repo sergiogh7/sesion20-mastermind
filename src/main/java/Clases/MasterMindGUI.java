@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
 
 
 public class MasterMindGUI extends JFrame {
@@ -163,6 +164,7 @@ public class MasterMindGUI extends JFrame {
 				
 				// guardamos el nivel que ha elegido usuario,
 				nivel = dialog.getNivel();
+				System.out.println(nivel);
 
 				// comprobamos si es null en el caso cuando usuario,
 				// no ha elegido ningún nivel, mostramos panel de
@@ -173,12 +175,14 @@ public class MasterMindGUI extends JFrame {
 					dialog.setVisible(true);
 					nivel = dialog.getNivel();
 
+					System.out.println("Nivel 2:" + nivel);
 				} else {
 					
 					// empieza el juego,				
 					juego = new MasterMind(nivel, panelColoresDisponibles);
 					panelUsuario.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
 					panelComprobacion.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
+					System.out.println(juego.toString());
 
 					//para que se vea array de colores disponibles,
 					setVisible(true);
