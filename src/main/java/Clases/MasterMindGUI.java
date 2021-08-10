@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JButton;
 
 
 public class MasterMindGUI extends JFrame {
@@ -37,7 +36,7 @@ public class MasterMindGUI extends JFrame {
 	public MasterMindGUI() {
 		setTitle("Master Mind");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 300);
+		setBounds(100, 100, 650, 400);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -80,10 +79,18 @@ public class MasterMindGUI extends JFrame {
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
 
+		//mostramos como jugar,
 		JMenuItem mntmComo = new JMenuItem("Como jugar");
+		mntmComo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				JOptionPane.showMessageDialog(mntmComo, "Es un juego muy liado, estaría mejor si buscas reglas poe internet");
+			}
+		});
 		mntmComo.setBackground(SystemColor.activeCaption);
 		mnAyuda.add(mntmComo);
 
+		//mostramos los creadores del juego,
 		JMenuItem mntmAcerca = new JMenuItem("Acerca De");
 		mntmAcerca.addMouseListener(new MouseAdapter() {
 
@@ -107,10 +114,11 @@ public class MasterMindGUI extends JFrame {
 
 		panelComprobacion = new JPanel();
 		contentPane.add(panelComprobacion);
+		panelComprobacion.setLayout(new GridLayout(1, 0, 0, 0));
 
 		JPanel panelSolucion = new JPanel();
 		contentPane.add(panelSolucion);
-		panelSolucion.setLayout(new GridLayout(2, 0, 0, 0));
+		panelSolucion.setLayout(new GridLayout(2, 0, 0, 5));
 
 		JPanel panelParaColoresDisponibles = new JPanel();
 		panelParaColoresDisponibles.setBorder(new LineBorder(new Color(0, 102, 255), 1, true));
@@ -138,15 +146,12 @@ public class MasterMindGUI extends JFrame {
 		panelParaCombinacionSecreta.add(lblSecreta);
 		
 		panelCombinacionSecreta = new JPanel();
-		panelParaCombinacionSecreta.add(panelCombinacionSecreta);
+		panelParaCombinacionSecreta.add(panelCombinacionSecreta);	
 		
-		
-		
-		
-		
+		//el método que se ejecuta cada vez cuando elegimos un juego nuevo,
 		MouseAdapter nuevoJuego = new MouseAdapter() {
 			
-			// cuando usuario quiere empezar un juego nuevo,
+			//listener de pulsación de ratón,
 			@Override
 			public void mousePressed(MouseEvent e) {
 				
@@ -158,61 +163,34 @@ public class MasterMindGUI extends JFrame {
 				
 				// guardamos el nivel que ha elegido usuario,
 				nivel = dialog.getNivel();
-				System.out.println(nivel);
 
-				// comprobamos si es null en el caso cuando usuario ,
+				// comprobamos si es null en el caso cuando usuario,
 				// no ha elegido ningún nivel, mostramos panel de
-				//niveles de nuevo para que usuario lo eliga,
+				// niveles de nuevo para que usuario lo eliga,
 				
 				if (nivel == null) {
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 					nivel = dialog.getNivel();
 
-					System.out.println("Nivel 2:" + nivel);
 				} else {
-					// empieza el juego,
 					
+					// empieza el juego,				
 					juego = new MasterMind(nivel, panelColoresDisponibles);
 					panelUsuario.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
-					System.out.println(juego.toString());
+					panelComprobacion.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
 
 					//para que se vea array de colores disponibles,
 					setVisible(true);
 					
-					//añadimos componentes de colores disponibles,
-				/*	for (int i = 0; i < juego.bolaColores.length; i++) {
-			
-						panelColoresDisponibles.add(juego.bolaColores[i]);
-						
-						setVisible(true);
-					}	*/
-					
 					juego.jugar(panelUsuario, panelCombinacionSecreta, panelComprobacion);
 					
 					//para que se vea la combinación secreta,
-					setVisible(true);
-					
-					
-					
-					
-					
-					/*for (int j = 0; j < juego.bolaSolucion.length; j++) {
-
-						panelCombinacionSecreta.add(juego.bolaSolucion[j]);
-						
-						setVisible(true);
-					}*/
-					
-					
-				
+					setVisible(true);				
 				}		
 			}
 		};
 		
-		mntmNuevaPartida.addMouseListener(nuevoJuego);
-		
-		
+		mntmNuevaPartida.addMouseListener(nuevoJuego);				
 	}
-
 }
