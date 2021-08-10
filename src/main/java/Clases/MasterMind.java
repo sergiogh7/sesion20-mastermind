@@ -38,6 +38,7 @@ public class MasterMind extends JFrame {
 	protected int contadorBolasBlancas = 0;
 	protected boolean isGanado = false;
 
+	// valores por defecto,
 	private final String NIVEL_DEFECTO = "Principiante";
 	private final int INTENTOS_DEFECTO = 10;
 	private final int COLORES_DEFECTO = 4;
@@ -58,13 +59,98 @@ public class MasterMind extends JFrame {
 		this.setNumIntentos(this.nivel);
 		this.setNumColores(this.nivel);
 
+		// inicializamos panel de colores disponibles,
+		// y creamos array de solución,
 		this.crearColores(panelColoresDisponibles);
 		this.crearSolucion();
-
 	}
 
 	// métodos,
-	// método que comprueba intento del usuario con solucón,
+
+	//////////// PANEL DE COLORES DISPONIBLES Y DE SOLUCIÓN
+	//////////// //////////////////////////////
+
+	// para crear array de Labels con colores disponibles,
+	// controlamos que no se repiten colores,
+	public void crearColores(JPanel panelColoresDisponibles) {
+
+		// inicializamos el array de colores que vamos a asignar,
+		this.arrayColoresAuxiliar();
+
+		this.bolaColores = new JLabel[this.numColores];
+
+		// elegimos colores aleatoriamente;
+
+		for (int i = 0; i < this.bolaColores.length; i++) {
+
+			this.bolaColores[i] = this.crearLabel();
+			this.bolaColores[i].setBackground(this.arrayColoresDisponibles[i]);
+			this.bolaColores[i].setBorder(new LineBorder(Color.DARK_GRAY));
+
+			panelColoresDisponibles.add(this.bolaColores[i]);
+		}
+	}
+
+	// método que crea combinación secreta,
+	public void crearSolucion() {
+
+		this.bolaSolucion = new JLabel[this.numColores];
+
+		// elegimos colores aleatoriamente;
+
+		for (int i = 0; i < this.bolaSolucion.length; i++) {
+
+			this.bolaSolucion[i] = this.crearLabel();
+			this.bolaSolucion[i]
+					.setBackground(this.arrayColoresDisponibles[this.randomNum(this.arrayColoresDisponibles.length)]);
+			this.bolaSolucion[i].setBorder(new LineBorder(Color.DARK_GRAY));
+		}
+	}
+
+	// array de colores que no se repiten para crear etiquetas de colores
+	// disponibles,
+	// para rellenar el panel de colores disponibles,
+	private void arrayColoresAuxiliar() {
+		Color test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
+
+		this.arrayColoresDisponibles = new Color[this.numColores];
+
+		for (int i = 0; i < this.arrayColoresDisponibles.length; i++) {
+
+			do {
+				test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
+			} while (searchList(this.arrayColoresDisponibles, test));
+
+			this.arrayColoresDisponibles[i] = test;
+		}
+	}
+
+	// método para buscar el color repetido,
+	private boolean searchList(Color[] strings, Color searchString) {
+		return Arrays.asList(strings).contains(searchString);
+	}
+
+	// el método principal que se ejecuta en interface,
+	public void jugar(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
+
+		if (hasIntentos() && !isGanado) {
+			this.ejecutarIntento(panel, panelCombinacionSecreta, panelComprobacion);
+		}
+	}
+
+	// método principal que se ejecuta un intento,
+	public void ejecutarIntento(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
+
+		this.crear_linea_bola(panel, panelCombinacionSecreta, panelComprobacion);
+
+		this.elegirColor();
+
+	}
+
+	// método que comprueba cantidad de bolas negras,
+	// si son igual a número de colores según el nivel elgido
+	// usuario ha elegido,
+
 	protected void setIsGanado() {
 
 		if (this.contadorBolasNegras == this.numColores) {
@@ -87,129 +173,7 @@ public class MasterMind extends JFrame {
 		return hasIntentos;
 	}
 
-	public void jugar(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
-
-		if (hasIntentos() && !isGanado) {
-			this.ejecutarIntento(panel, panelCombinacionSecreta, panelComprobacion);
-		}
-
-	}
-
-	// método principal que se ejecuta un intento,
-	public void ejecutarIntento(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
-
-		this.crear_linea_bola(panel, panelCombinacionSecreta, panelComprobacion);
-
-		this.elegirColor();
-
-	}
-
-	// método que escucha cuando usuario pulsa el botón comprobar,
-	protected void addListenerBtnComprobar(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
-
-		// inicializamos de nuevo contadores para cada intento nuevo,
-		contadorBolasNegras = 0;
-		contadorBolasBlancas = 0;
-
-		ArrayList<Color> arrayAuxiliar = new ArrayList<>();
-
-		this.btnComprobar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-
-				for (int i = 0; i < bola.length; i++) {
-
-					// comprobar si usuario ha acertado y con posición,
-					// y con color de bola, entonces contamos negras,
-					if (bola[i].getBackground() == bolaSolucion[i].getBackground()) {
-						contadorBolasNegras++;
-					} else {
-
-						// contamos blancas,
-						// guardamos en un arraylist bolas donde esté el color pero no la posición,
-						// descartamos bolas repetidas,
-						for (int j = 0; j < bolaSolucion.length; j++) {
-
-							if (bola[i].getBackground() == bolaSolucion[j].getBackground()) {
-
-								if (!arrayAuxiliar.contains(bola[i].getBackground())) {
-									arrayAuxiliar.add(bola[i].getBackground());
-								}
-							}
-						}
-					}
-				}
-				// guardamos la cantidad de bolas blancas,
-				contadorBolasBlancas = arrayAuxiliar.size();
-
-				// creamos línea nueva do comprobación,
-				crear_linea_bolaresul(panelComprobacion);
-
-				if (contadorBolasNegras != numColores && hasIntentos()) {
-					numIntentos--;
-
-					ejecutarIntento(panel, panelCombinacionSecreta, panelComprobacion);
-				} else {
-					setIsGanado();
-
-					// cuando se acaba el juego primer de todo,
-					// mostramos la solución,
-					for (int j = 0; j < bolaSolucion.length; j++) {
-
-						panelCombinacionSecreta.add(bolaSolucion[j]);
-					}
-
-					if (isGanado) {
-						JOptionPane.showMessageDialog(panel, "Ha ganado");
-					}
-
-					// si usuario ha perdidio mostramos un mensaje que usuario ha perdido,
-					// bloqueamos el botón de comprobación
-
-					else { // bloqueamos el botón comprobar,
-						btnComprobar.setEnabled(false);
-
-						// mostramos el mensaje que ha perdido,
-						JOptionPane.showMessageDialog(panel, "Ha perdido");
-					}
-				}
-			}
-		});
-	}
-
-	// método para mostrar resultado de un intento,
-
-	protected void crear_linea_bolaresul(JPanel panel) {
-
-		JPanel panelLinea = new JPanel();
-		
-		panel.add(panelLinea);
-
-		this.bolaresul = new JLabel[this.contadorBolasNegras + this.contadorBolasBlancas];
-
-		for (int i = 0; i < this.bolaresul.length; i++) {
-
-			this.bolaresul[i] = this.crearLabel();
-		}
-
-		for (int j = 0; j < this.bolaresul.length; j++) {
-
-			for (int l = 0; l < this.contadorBolasNegras; l++) {
-			
-				this.bolaresul[l].setBackground(Color.black);
-			}
-
-			for (int g = this.contadorBolasNegras; g < this.bolaresul.length; g++) {
-	
-				this.bolaresul[g].setBackground(Color.white);
-			}
-			this.bolaresul[j].setHorizontalAlignment(SwingConstants.LEADING);
-			panelLinea.add(this.bolaresul[j]);
-		}
-
-		this.btnComprobar.setVisible(false);
-	}
-
+	////////////////////// PANEL USUARIO //////////////////
 	// método para crear una linea de intentos y botón para comprobar,
 	protected void crear_linea_bola(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
 
@@ -278,65 +242,117 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// array de colores que no se repiten para crear etiquetas de colores
-	// disponibles,
-	private void arrayColoresAuxiliar() {
-		Color test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
+	// método que escucha cuando usuario pulsa el botón comprobar,
+	protected void addListenerBtnComprobar(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
 
-		this.arrayColoresDisponibles = new Color[this.numColores];
+		// inicializamos de nuevo contadores para cada intento nuevo,
+		contadorBolasNegras = 0;
+		contadorBolasBlancas = 0;
 
-		for (int i = 0; i < this.arrayColoresDisponibles.length; i++) {
+		ArrayList<Color> arrayAuxiliar = new ArrayList<>();
 
-			do {
-				test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
-			} while (searchList(this.arrayColoresDisponibles, test));
+		this.btnComprobar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
 
-			this.arrayColoresDisponibles[i] = test;
+				for (int i = 0; i < bola.length; i++) {
+
+					// comprobar si usuario ha acertado y con posición,
+					// y con color de bola, entonces contamos negras,
+					if (bola[i].getBackground() == bolaSolucion[i].getBackground()) {
+						contadorBolasNegras++;
+					} else {
+
+						// contamos blancas,
+						// guardamos en un arraylist bolas donde esté el color pero no la posición,
+						// descartamos bolas repetidas,
+						for (int j = 0; j < bolaSolucion.length; j++) {
+
+							if (bola[i].getBackground() == bolaSolucion[j].getBackground()) {
+
+								if (!arrayAuxiliar.contains(bola[i].getBackground())) {
+									arrayAuxiliar.add(bola[i].getBackground());
+								}
+							}
+						}
+					}
+				}
+				// guardamos la cantidad de bolas blancas,
+				contadorBolasBlancas = arrayAuxiliar.size();
+
+				// creamos línea nueva do comprobación,
+				crear_linea_bolaresul(panelComprobacion);
+
+				// para seguir el juego,
+
+				if (contadorBolasNegras != numColores && hasIntentos()) {
+					numIntentos--;
+
+					ejecutarIntento(panel, panelCombinacionSecreta, panelComprobacion);
+				} else {
+					setIsGanado();
+
+					// cuando se acaba el juego primer de todo,
+					// mostramos la solución,
+					for (int j = 0; j < bolaSolucion.length; j++) {
+
+						panelCombinacionSecreta.add(bolaSolucion[j]);
+					}
+
+					if (isGanado) {
+						JOptionPane.showMessageDialog(panel, "Ha ganado");
+					}
+
+					// si usuario ha perdidio mostramos un mensaje que usuario ha perdido,
+					// bloqueamos el botón de comprobación
+
+					else {
+						// bloqueamos el botón comprobar,
+						btnComprobar.setEnabled(false);
+
+						// mostramos el mensaje que ha perdido,
+						JOptionPane.showMessageDialog(panel, "Ha perdido");
+					}
+				}
+			}
+		});
+	}
+
+	////////// PANEL COMPROBACIÓN /////////////////////////
+	// método para mostrar resultado de un intento,
+
+	protected void crear_linea_bolaresul(JPanel panel) {
+
+		JPanel panelLinea = new JPanel();
+
+		panel.add(panelLinea);
+
+		this.bolaresul = new JLabel[this.contadorBolasNegras + this.contadorBolasBlancas];
+
+		for (int i = 0; i < this.bolaresul.length; i++) {
+
+			this.bolaresul[i] = this.crearLabel();
 		}
-	}
 
-	// método para buscar el color repetido,
-	private boolean searchList(Color[] strings, Color searchString) {
-		return Arrays.asList(strings).contains(searchString);
-	}
+		for (int j = 0; j < this.bolaresul.length; j++) {
 
-	// para crear array de Labels con colores disponibles,
-	// controlamos que no se repiten colores,
-	public void crearColores(JPanel panelColoresDisponibles) {
+			for (int l = 0; l < this.contadorBolasNegras; l++) {
 
-		// inicializamos el array de colores que vamos a asignar,
-		this.arrayColoresAuxiliar();
+				this.bolaresul[l].setBackground(Color.black);
+			}
 
-		this.bolaColores = new JLabel[this.numColores];
+			for (int g = this.contadorBolasNegras; g < this.bolaresul.length; g++) {
 
-		// elegimos colores aleatoriamente;
-
-		for (int i = 0; i < this.bolaColores.length; i++) {
-
-			this.bolaColores[i] = this.crearLabel();
-			this.bolaColores[i].setBackground(this.arrayColoresDisponibles[i]);
-			this.bolaColores[i].setBorder(new LineBorder(Color.DARK_GRAY));
-
-			panelColoresDisponibles.add(this.bolaColores[i]);
+				this.bolaresul[g].setBackground(Color.white);
+			}
+			this.bolaresul[j].setHorizontalAlignment(SwingConstants.LEADING);
+			panelLinea.add(this.bolaresul[j]);
 		}
+
+		this.btnComprobar.setVisible(false);
 	}
 
-	// método que crea combinación secreta,
-	public void crearSolucion() {
-
-		this.bolaSolucion = new JLabel[this.numColores];
-
-		// elegimos colores aleatoriamente;
-
-		for (int i = 0; i < this.bolaSolucion.length; i++) {
-
-			this.bolaSolucion[i] = this.crearLabel();
-			this.bolaSolucion[i]
-					.setBackground(this.arrayColoresDisponibles[this.randomNum(this.arrayColoresDisponibles.length)]);
-			this.bolaSolucion[i].setBorder(new LineBorder(Color.DARK_GRAY));
-		}
-	}
-
+	//// métodos auxiliares,
 	// método que crea un label simple,
 	protected JLabel crearLabel() {
 
