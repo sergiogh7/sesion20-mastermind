@@ -13,7 +13,7 @@ con cuatro negras), o bien se agota el tablero (depende del tamaño, aunque
 generalmente son 10 combinaciones). 
 
 
-![Optional Text](../mastermind/img/Inicio.jpg)
-![Optional Text](../mastermind/img/Niveles.jpg)
-![Optional Text](../mastermind/img/Durante.jpg)
-![Optional Text](../mastermind/img/Fin.jpg)
+![Inicio del juego](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Inicio.JPG)
+![Elegir nivel](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Niveles.JPG)
+![Durante el juego](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Durante.JPG)
+![Final](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Fin.JPG)
