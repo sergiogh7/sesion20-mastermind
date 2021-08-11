@@ -47,7 +47,7 @@ public class MasterMindGUI extends JFrame {
 
 		JMenuItem mntmSalir = new JMenuItem("Salir");
 		
-		//para cerrar el programa,
+//		 Cierra el programa al clickar SALIR
 		mntmSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -59,6 +59,7 @@ public class MasterMindGUI extends JFrame {
 		mntmSalir.setBackground(SystemColor.activeCaption);
 		mnArchivo.add(mntmSalir);
 
+//		 Item de menu nueva partida.
 		JMenuItem mntmNuevaPartida = new JMenuItem("Nueva partida");
 
 		mnArchivo.add(mntmNuevaPartida);
@@ -66,7 +67,7 @@ public class MasterMindGUI extends JFrame {
 		JMenuItem mntmNivel = new JMenuItem("Nivel");
 		mntmNivel.addMouseListener(new MouseAdapter() {
 
-			// llamamos el interface de niveles,
+//			Llama a la interfasce de niveles
 			@Override
 			public void mousePressed(MouseEvent e) {
 
@@ -80,30 +81,31 @@ public class MasterMindGUI extends JFrame {
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
 
-		//mostramos como jugar,
+//		Muestra info de como jugar.
 		JMenuItem mntmComo = new JMenuItem("Como jugar");
 		mntmComo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				JOptionPane.showMessageDialog(mntmComo, "Es un juego muy liado, estaría mejor si buscas reglas poe internet");
+				JOptionPane.showMessageDialog(mntmComo, "Es un juego muy liado, estaría mejor si buscas reglas por internet");
 			}
 		});
 		mntmComo.setBackground(SystemColor.activeCaption);
 		mnAyuda.add(mntmComo);
 
-		//mostramos los creadores del juego,
+//		Muestra los creadores del juego.
 		JMenuItem mntmAcerca = new JMenuItem("Acerca De");
 		mntmAcerca.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				JOptionPane.showMessageDialog(mntmAcerca, "Create by group Raul, Sergio, Katia. All right reserved)))");
+				JOptionPane.showMessageDialog(mntmAcerca, "Created by Katia, Raul, Sergio.\nAll rights reserved.");
 			}
 		});
 
 		mnAyuda.add(mntmAcerca);
 
+//		Paneles
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -149,25 +151,24 @@ public class MasterMindGUI extends JFrame {
 		panelCombinacionSecreta = new JPanel();
 		panelParaCombinacionSecreta.add(panelCombinacionSecreta);	
 		
-		//el método que se ejecuta cada vez cuando elegimos un juego nuevo,
+//		Llama a un metodo que se ejecuta cada vez que elegimos juego nuevo.
 		MouseAdapter nuevoJuego = new MouseAdapter() {
 			
-			//listener de pulsación de ratón,
+//			Listener de pulsación de ratón
 			@Override
 			public void mousePressed(MouseEvent e) {
 				
-				//para borrar componentes de la partida anterior,
+//				Elimina componentes de la partida anterior.
 				MasterMind.borrarComponentes(panelColoresDisponibles);
 				MasterMind.borrarComponentes(panelCombinacionSecreta);
 				MasterMind.borrarComponentes(panelUsuario);
 				MasterMind.borrarComponentes(panelComprobacion);
 				
-				// guardamos el nivel que ha elegido usuario,
+//				/Guarda el nivel que ha elegido usuario.
 				nivel = dialog.getNivel();
 
-				// comprobamos si es null en el caso cuando usuario,
-				// no ha elegido ningún nivel, mostramos panel de
-				// niveles de nuevo para que usuario lo eliga,
+//				Comprueba si es null, y si usuario no ha elegido ningún nivel
+//				muestra panel de niveles de nuevo para que usuario lo elija.
 				
 				if (nivel == null) {
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -176,17 +177,17 @@ public class MasterMindGUI extends JFrame {
 
 				} else {
 					
-					// empieza el juego,				
+//					COMIENZA EL JUEGO				
 					juego = new MasterMind(nivel, panelColoresDisponibles);
 					panelUsuario.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
 					panelComprobacion.setLayout(new GridLayout(juego.numIntentos, 0, 0, 0));
 
-					//para que se vea array de colores disponibles,
+//					Muestra el array de colores disponibles.
 					setVisible(true);
 					
 					juego.jugar(panelUsuario, panelCombinacionSecreta, panelComprobacion);
 					
-					//para que se vea la combinación secreta,
+//					Muestra ka combinacion secreta.
 					setVisible(true);				
 				}		
 			}
