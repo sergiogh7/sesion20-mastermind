@@ -83,7 +83,7 @@ public class NivelGUI extends JDialog {
 
 						}	
 						
-						//para cerrar la ventana de nivel,
+//						Cierra la ventana de nivel.
 						dispose();
 						setVisible(false);
 					}
@@ -100,7 +100,7 @@ public class NivelGUI extends JDialog {
 					public void mousePressed(MouseEvent e) {
 						nivel = rdbtnPrincipiante.getText();
 					
-						//para cerrar la ventana de nivel,
+//						Cierra la ventana de nivel.
 						dispose();
 						setVisible(false);
 					}
@@ -112,7 +112,7 @@ public class NivelGUI extends JDialog {
 		}
 	}
 	
-	//getter de nivel para traspasarlo a la página principal,
+//	Getter de nivel para traspasarlo al principal.
 	public String getNivel() {
 		return nivel;
 	}

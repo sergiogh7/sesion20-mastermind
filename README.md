@@ -1,6 +1,7 @@
 # sesion20-mastermind
 Juego Mastermind
 
+
 El objetivo es implementar una aplicación que permita jugar al juego del
 MasterMind. Se juega en un tablero con fichas blancas y negras pequeñas y de
 otros colores. Uno de los jugadores escoge un número de fichas de colores, 4 en
@@ -17,3 +18,6 @@ generalmente son 10 combinaciones).
 ![Elegir nivel](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Niveles.JPG)
 ![Durante el juego](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Durante.JPG)
 ![Final](https://github.com/sergiogh7/sesion20-mastermind/blob/katia/img/Fin.JPG)
+
+
+Created by Raúl, Katia and Sergio.
