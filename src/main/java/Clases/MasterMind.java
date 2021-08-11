@@ -38,13 +38,13 @@ public class MasterMind extends JFrame {
 	protected int contadorBolasBlancas = 0;
 	protected boolean isGanado = false;
 
-	// valores por defecto,
+//	Valores por defecto.
 	private final String NIVEL_DEFECTO = "Principiante";
 	private final int INTENTOS_DEFECTO = 10;
 	private final int COLORES_DEFECTO = 4;
 
-	// constructor,
-	// por defecto es el nivel de Principiante,
+//	Constructor.
+//	Por defecto es el nivel de Principiante.
 	public MasterMind() {
 		super();
 		this.nivel = this.NIVEL_DEFECTO;
@@ -52,35 +52,32 @@ public class MasterMind extends JFrame {
 		this.numColores = this.COLORES_DEFECTO;
 	}
 
-	// constructor con el parámetro nivel,
+//	Constructor con el parámetro nivel.
 	public MasterMind(String nivel, JPanel panelColoresDisponibles) {
 		super();
 		this.nivel = nivel;
 		this.setNumIntentos(this.nivel);
 		this.setNumColores(this.nivel);
 
-		// inicializamos panel de colores disponibles,
-		// y creamos array de solución,
+//		Inicia el panel de colores disponibles y crea el array de solución.
 		this.crearColores(panelColoresDisponibles);
 		this.crearSolucion();
 	}
 
-	// métodos,
+	// METODOS.
+	/////////// PANEL DE COLORES DISPONIBLES Y DE SOLUCIÓN
+	///////////////////////////////////////////////////////
 
-	//////////// PANEL DE COLORES DISPONIBLES Y DE SOLUCIÓN
-	//////////// //////////////////////////////
-
-	// para crear array de Labels con colores disponibles,
-	// controlamos que no se repiten colores,
+//	/Para crear los array de Labels con los colores disponibles,
+//	controlamos que no se repitan colores.
 	public void crearColores(JPanel panelColoresDisponibles) {
 
-		// inicializamos el array de colores que vamos a asignar,
+//		Inicia el array de colores que vamos a asignar.
 		this.arrayColoresAuxiliar();
 
 		this.bolaColores = new JLabel[this.numColores];
 
-		// elegimos colores aleatoriamente;
-
+//		Elegimos colores aleatoriamente.
 		for (int i = 0; i < this.bolaColores.length; i++) {
 
 			this.bolaColores[i] = this.crearLabel();
@@ -91,13 +88,12 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// método que crea combinación secreta,
+//	Metodo que crea combinación secreta.
 	public void crearSolucion() {
 
 		this.bolaSolucion = new JLabel[this.numColores];
 
-		// elegimos colores aleatoriamente;
-
+//		Elegimos colores aleatoriamente.
 		for (int i = 0; i < this.bolaSolucion.length; i++) {
 
 			this.bolaSolucion[i] = this.crearLabel();
@@ -107,9 +103,8 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// array de colores que no se repiten para crear etiquetas de colores
-	// disponibles,
-	// para rellenar el panel de colores disponibles,
+//	Array de colores que no se repiten para crear etiquetas de colores disponibles,
+//	para rellenar el panel de los colores disponibles.
 	private void arrayColoresAuxiliar() {
 		Color test = this.arrayTodosColores[this.randomNum(this.arrayTodosColores.length)];
 
@@ -125,12 +120,12 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// método para buscar el color repetido,
+//	Metodo que busca el color repetido.
 	private boolean searchList(Color[] strings, Color searchString) {
 		return Arrays.asList(strings).contains(searchString);
 	}
 
-	// el método principal que se ejecuta en interface,
+//	El metodo principal que se ejecuta la interface.
 	public void jugar(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
 
 		if (hasIntentos() && !isGanado) {
@@ -138,7 +133,7 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// método principal que se ejecuta un intento,
+//	El metodo principal que ejecuta un intento,
 	public void ejecutarIntento(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
 
 		this.crear_linea_bola(panel, panelCombinacionSecreta, panelComprobacion);
@@ -147,10 +142,9 @@ public class MasterMind extends JFrame {
 
 	}
 
-	// método que comprueba cantidad de bolas negras,
-	// si son igual a número de colores según el nivel elgido
-	// usuario ha elegido,
-
+//	Metodo que comprueba la cantidad de bolas negras,
+//	y si son iguales a número de colores según el nivel elgido
+//	el usuario ha ganado la partida, de lo contrario el programa continua.
 	protected void setIsGanado() {
 
 		if (this.contadorBolasNegras == this.numColores) {
@@ -161,7 +155,7 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// método que comprueba si hay intentos,
+//	Metodo que comprueba si hay intentos,
 	protected boolean hasIntentos() {
 
 		boolean hasIntentos = true;
@@ -174,7 +168,7 @@ public class MasterMind extends JFrame {
 	}
 
 	////////////////////// PANEL USUARIO //////////////////
-	// método para crear una linea de intentos y botón para comprobar,
+//	Metodo para crear una linea de intentos y botón para comprobar.
 	protected void crear_linea_bola(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
 
 		JPanel panelLinea = new JPanel();
@@ -198,7 +192,7 @@ public class MasterMind extends JFrame {
 
 	}
 
-	// para que se puede elegir colores dentro de un intento,
+//	Para elegir colores dentro de un intento.
 	protected void elegirColor() {
 
 		for (int i = 0; i < bola.length; i++) {
@@ -210,8 +204,8 @@ public class MasterMind extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 
-					// si usuario clique el botón derecha de ratón,
-					// orden de final al inicio de array,
+//					Si usuario hace click con el boton derecho de raton,
+//					va desde final al inicio de array.
 					if (e.isMetaDown()) {
 
 						if (contadorDerecho < 0) {
@@ -224,8 +218,8 @@ public class MasterMind extends JFrame {
 
 						contadorDerecho--;
 					}
-					// si usuario clique el botón izquierda de ratón,
-					// oreden normal de array,
+//					si usuario hace click el boton izquierdo de raton,
+//					va en orden normal del array.
 					else if (!e.isAltDown() && !e.isShiftDown()) {
 
 						if (contadorIzquierdo > (numColores - 1)) {
@@ -242,10 +236,10 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// método que escucha cuando usuario pulsa el botón comprobar,
+//	Metodo que escucha cuando usuario pulsa el boton comprobar.
 	protected void addListenerBtnComprobar(JPanel panel, JPanel panelCombinacionSecreta, JPanel panelComprobacion) {
 
-		// inicializamos de nuevo contadores para cada intento nuevo,
+//		En cada intento nuevo reinciia los contadores de bolas negras y bolas blancas.
 		contadorBolasNegras = 0;
 		contadorBolasBlancas = 0;
 
@@ -257,15 +251,15 @@ public class MasterMind extends JFrame {
 
 				for (int i = 0; i < bola.length; i++) {
 
-					// comprobar si usuario ha acertado y con posición,
-					// y con color de bola, entonces contamos negras,
+//					Comprueba si el usuario ha acertado con la posición y el color de bola,
+//					entonces contamos negras.
 					if (bola[i].getBackground() == bolaSolucion[i].getBackground()) {
 						contadorBolasNegras++;
 					} else {
 
-						// contamos blancas,
-						// guardamos en un arraylist bolas donde esté el color pero no la posición,
-						// descartamos bolas repetidas,
+//						Contamos blancas
+//						Garda en un arraylist bolas donde este el color pero no la posicion,
+//						y descarta bolas repetiodas
 						for (int j = 0; j < bolaSolucion.length; j++) {
 
 							if (bola[i].getBackground() == bolaSolucion[j].getBackground()) {
@@ -277,40 +271,46 @@ public class MasterMind extends JFrame {
 						}
 					}
 				}
-				// guardamos la cantidad de bolas blancas,
+				
+//				Guarda la cantidad de bolas blancas.
 				contadorBolasBlancas = arrayAuxiliar.size();
 
-				// creamos línea nueva do comprobación,
+//				Creamos línea nueva de comprobación.
 				crear_linea_bolaresul(panelComprobacion);
 
-				// para seguir el juego,
-
+//				Continua el juego cuando el contador de bolas negras 
+//				es menor a la dificultad elegida por el usuario y todavia tiene intentos.
 				if (contadorBolasNegras != numColores && hasIntentos()) {
+					
+//					Resta un intento.
 					numIntentos--;
 
 					ejecutarIntento(panel, panelCombinacionSecreta, panelComprobacion);
+				
+//				En caso de haber ganado la partida.
 				} else {
+					
 					setIsGanado();
 
-					// cuando se acaba el juego primer de todo,
-					// mostramos la solución,
+//					Muestra la solucion.
 					for (int j = 0; j < bolaSolucion.length; j++) {
 
 						panelCombinacionSecreta.add(bolaSolucion[j]);
 					}
-
+					
+//					Muestra un mensaje.
 					if (isGanado) {
 						JOptionPane.showMessageDialog(panel, "Ha ganado");
 					}
 
-					// si usuario ha perdidio mostramos un mensaje que usuario ha perdido,
-					// bloqueamos el botón de comprobación
-
+//					Si usuario ha perdidio muestra un mensaje de que usuario ha perdido,
+//					y bloquea el boton de comprobacion.
 					else {
-						// bloqueamos el botón comprobar,
+						
+//						Bloquea el boton de comprobacion.
 						btnComprobar.setEnabled(false);
 
-						// mostramos el mensaje que ha perdido,
+//						Muestra un mensaje.
 						JOptionPane.showMessageDialog(panel, "Ha perdido");
 					}
 				}
@@ -319,8 +319,7 @@ public class MasterMind extends JFrame {
 	}
 
 	////////// PANEL COMPROBACIÓN /////////////////////////
-	// método para mostrar resultado de un intento,
-
+//	Metodo para mostrar resultado de un intento.
 	protected void crear_linea_bolaresul(JPanel panel) {
 
 		JPanel panelLinea = new JPanel();
@@ -352,8 +351,8 @@ public class MasterMind extends JFrame {
 		this.btnComprobar.setVisible(false);
 	}
 
-	//// métodos auxiliares,
-	// método que crea un label simple,
+	//// Metodos auxiliares,
+//	MEtodo que crea un label simple.
 	protected JLabel crearLabel() {
 
 		JLabel lblNewLabel = new JLabel("");
@@ -365,7 +364,7 @@ public class MasterMind extends JFrame {
 
 	}
 
-	// método para elegir número de color aleatoriamente,
+//	MEtodo para elegir el numero de color aleatoriamente.
 	private int randomNum(int numMax) {
 		Random r = new Random();
 		return r.nextInt(numMax - 1);
@@ -376,7 +375,7 @@ public class MasterMind extends JFrame {
 		panel.repaint();
 	}
 
-	// setter para asignar intentos según el nivel elegido,
+//	Setter para asignar intentos según el nivel elegido.
 	public void setNumIntentos(String nivel) {
 
 		switch (nivel) {
@@ -392,13 +391,12 @@ public class MasterMind extends JFrame {
 		}
 	}
 
-	// para comprobar cantidad de intentos,
+//	Comprueba la cantidad de intentos.
 	public int getNumIntentos() {
 		return numIntentos;
 	}
 
-	// setter para asignar cantidad de colores que tiene el juego según el nivel
-	// elegido,
+//	Setter para asignar la cantidad de colores que tiene el juego segun el nivel elegido.
 	public void setNumColores(String nivel) {
 
 		switch (nivel) {
@@ -414,6 +412,7 @@ public class MasterMind extends JFrame {
 		}
 	}
 
+//	Metodo toString.
 	@Override
 	public String toString() {
 		return "MasterMind [nivel=" + nivel + ", intentos=" + numIntentos + ", colores=" + numColores + "]";
