@@ -13,9 +13,7 @@ con cuatro negras), o bien se agota el tablero (depende del tamaño, aunque
 generalmente son 10 combinaciones). 
 
 
-<p align="center">
-  <img src="file:///C:/Users/tikov/OneDrive/Desktop/Curso%20Java+Angular/Java%20Game%2003%20-%20Master%20Mind/Inicio.JPG" width="350" title="1">
-  <img src="file:///C:/Users/tikov/OneDrive/Desktop/Curso%20Java+Angular/Java%20Game%2003%20-%20Master%20Mind/Niveles.JPG" width="350" alt="2">
-  <img src="file:///C:/Users/tikov/OneDrive/Desktop/Curso%20Java+Angular/Java%20Game%2003%20-%20Master%20Mind/Durante.JPG" width="350" alt="3">
-  <img src="file:///C:/Users/tikov/OneDrive/Desktop/Curso%20Java+Angular/Java%20Game%2003%20-%20Master%20Mind/Fin.JPG" width="350" alt="4">
-</p>
+![Optional Text](../mastermind/img/Inicio.jpg)
+![Optional Text](../mastermind/img/Niveles.jpg)
+![Optional Text](../mastermind/img/Durante.jpg)
+![Optional Text](../mastermind/img/Fin.jpg)
